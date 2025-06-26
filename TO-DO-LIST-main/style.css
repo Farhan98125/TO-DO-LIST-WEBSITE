@@ -220,6 +220,18 @@ header .input-section {
     background-color: white;
     color:rgb(246, 77, 4);
 }
+
+.btn-ghost{
+    background-color: transparent;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.btn-ghost:hover{
+    background-color: #f0f0f0;
+    color: #333;
+}
+
 /*
 dropdown*/
 .dropbtn {
