@@ -1,0 +1,13 @@
+{
+  "name": "todo-list-app",
+  "version": "1.0.0",
+  "description": "A simple todo list application",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve .",
+    "build": "echo 'No build step required for static site'"
+  },
+  "keywords": ["todo", "list", "html", "css", "javascript"],
+  "author": "",
+  "license": "MIT"
+} 
