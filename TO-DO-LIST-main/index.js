@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing todo app...');
+    
     var todoList = []
     var comdoList = [];
     var remList = [];
@@ -8,39 +10,70 @@ document.addEventListener('DOMContentLoaded', function() {
     var allTodos = document.getElementById("all-todos");
     var deleteSButton = document.getElementById("delete-selected")
 
+    console.log('Elements found:', {
+        addButton: addButton,
+        todoInput: todoInput,
+        deleteAllButton: deleteAllButton,
+        allTodos: allTodos,
+        deleteSButton: deleteSButton
+    });
 
     //event listners for add and delete
-    addButton.addEventListener("click", add)
-    deleteAllButton.addEventListener("click", deleteAll)
-    deleteSButton.addEventListener("click", deleteS)
-
+    if (addButton) {
+        addButton.addEventListener("click", function() {
+            console.log('Add button clicked');
+            add();
+        });
+    }
+    
+    if (deleteAllButton) {
+        deleteAllButton.addEventListener("click", function() {
+            console.log('Delete all button clicked');
+            deleteAll();
+        });
+    }
+    
+    if (deleteSButton) {
+        deleteSButton.addEventListener("click", function() {
+            console.log('Delete selected button clicked');
+            deleteS();
+        });
+    }
 
     //event listeners for filtersk
     document.addEventListener('click', (e) => {
+        console.log('Click event on:', e.target);
         if (e.target.className.split(' ')[0] == 'complete' || e.target.className.split(' ')[0] == 'ci') {
+            console.log('Complete button clicked');
             completeTodo(e);
         }
         if (e.target.className.split(' ')[0] == 'delete' || e.target.className.split(' ')[0] == 'di') {
+            console.log('Delete button clicked');
             deleteTodo(e)
         }
         if (e.target.id == "all") {
+            console.log('All filter clicked');
             viewAll();
         }
         if (e.target.id == "rem") {
+            console.log('Remaining filter clicked');
             viewRemaining();
         }
         if (e.target.id == "com") {
+            console.log('Completed filter clicked');
             viewCompleted();
         }
 
     })
     //event listner for enter key
-    todoInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            add();
-        }
-    });
-
+    if (todoInput) {
+        todoInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                console.log('Enter key pressed');
+                add();
+            }
+        });
+    }
 
     //updates the all the remaining, completed and main list
     function update() {
@@ -53,6 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         document.getElementById("r-count").innerText = todoList.length.toString();
         document.getElementById("c-count").innerText = comdoList.length.toString();
+        console.log('Updated counts - Total:', todoList.length, 'Completed:', comdoList.length);
 
     }
 
@@ -60,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function add() {
         var value = todoInput.value;
+        console.log('Adding todo:', value);
         if (value === '') {
             alert("😮 Task cannot be empty")
             return;
@@ -73,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
         todoInput.value = "";
         update();
         addinmain(todoList);
+        console.log('Todo added successfully');
     }
 
 
@@ -95,12 +131,14 @@ document.addEventListener('DOMContentLoaded', function() {
             </li>`
             allTodos.innerHTML += x
         });
+        console.log('Rendered todos:', todoList.length);
     }
 
 
     //deletes and indiviual task and update all the list
     function deleteTodo(e) {
         var deleted = e.target.parentElement.parentElement.getAttribute('id');
+        console.log('Deleting todo with id:', deleted);
         todoList = todoList.filter((ele) => {
             return ele.id != deleted
         })
@@ -113,6 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //completes indiviaula task and updates all the list
     function completeTodo(e) {
         var completed = e.target.parentElement.parentElement.getAttribute('id');
+        console.log('Completing todo with id:', completed);
         todoList.forEach((obj) => {
             if (obj.id == completed) {
                 if (obj.complete == false) {
@@ -133,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     //deletes all the tasks
     function deleteAll(todo) {
-
+        console.log('Deleting all todos');
         todoList = []
 
         update();
@@ -143,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     //deletes only completed task
     function deleteS(todo) {
-
+        console.log('Deleting selected todos');
         todoList = todoList.filter((ele) => {
             return !ele.complete;
         })
@@ -157,14 +196,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // functions for filters
     function viewCompleted() {
+        console.log('Viewing completed todos');
         addinmain(comdoList);
     }
 
     function viewRemaining() {
-
+        console.log('Viewing remaining todos');
         addinmain(remList);
     }
     function viewAll() {
+        console.log('Viewing all todos');
         addinmain(todoList);
     }
+    
+    console.log('Todo app initialization complete');
 });
